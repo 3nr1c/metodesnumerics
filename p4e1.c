@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <time.h>
 #include <string.h>
-#include "read_matrix.h"
+#include "matrixio.h"
 
 /**
  * INT FORMAT --> %5d
@@ -104,9 +104,6 @@ int main()
 	double** matrixA;
 	double** matrixB;
 	clock_t time;
-	FILE* fp;
-	int i = 0;
-	int j = 0;
 
 	n = read_dimension();
 	printf("Dimensio n=%d\n", n);
@@ -134,14 +131,7 @@ int main()
 
 	printf("S'escriura la matriu B a l'arxiu output.txt\n");
 
-	fp = fopen("output.txt", "w");
-	for (i = 0; i < n; i++) {
-		for (j = 0; j < n; j++) {
-			fprintf(fp, " %+.2le", matrixB[i][j]);
-		}
-		fprintf(fp, "\n");
-	}
-	fclose(fp);	
+	write_matrix("output.txt", matrixB, n);
 
 	printf("n = %d, t = %.6f, t/n = %.6f\n",
 		n, ((float)time)/CLOCKS_PER_SEC, 
