@@ -148,8 +148,6 @@ int main()
 			vectorB[i] -= vectorB[j] * matrixA[i][j];
 		}
 	}
-
-	print_vector(vectorB, n);
 	
 
 	for (i = n - 1; i >= 0; i--) {
@@ -170,7 +168,6 @@ int main()
 
 	printf("S'escriura el vector X a l'arxiu output.txt\n");
 
-	print_vector(vectorB, n);
 	write_vector("output.txt", vectorB, n);
 
 	printf("n = %d, t = %.6f, t/n = %.6f\n",
