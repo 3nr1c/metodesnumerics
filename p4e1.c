@@ -4,6 +4,9 @@
 #include <time.h>
 #include <float.h>
 #include <assert.h>
+#include <time.h>
+#include <string.h>
+#include "read_matrix.h"
 
 /**
  * INT FORMAT --> %5d
@@ -15,7 +18,10 @@ int read_dimension()
 	int n = 0;
 	printf("Entra la dimensio (n > 0): ");
 	
-	assert(scanf("%d", &n) == 1);
+	assert(fscanf(stdin, "%d", &n) == 1);
+
+	// clean buffer
+	while((getchar()!='\n'));
 	if (n <= 0) {
 		printf("ERROR: la dimensio ha de ser positiva\n");
 		exit(1);
@@ -68,10 +74,8 @@ double** LU_product(double** matrix, int n)
 		B[i] = malloc(sizeof(double) * n);
 		for (j = 0; j < n; j++) {
 			temp = 0;
-			for (k = 0; k < n; k++) {
-				if (k > i || k > j) {
-					temp += 0;
-				} else if (i == k) {
+			for (k = 0; k <= (i < j ? i : j); k++) {
+				if (i == k) {
 					temp += matrix[k][j];
 				} else {
 					temp += matrix[i][k] * matrix[k][j];
@@ -83,24 +87,68 @@ double** LU_product(double** matrix, int n)
 	return B;					
 }
 
+void free_matrix(double** matrix, int n)
+{
+	int i = 0;
+
+	for (i = 0; i < n; i++) {
+		free(matrix[i]);
+	}
+	free(matrix);
+}
+
 int main()
 {
 	int n = 0;
+	char filename[256];
 	double** matrixA;
 	double** matrixB;
+	clock_t time;
+	FILE* fp;
+	int i = 0;
+	int j = 0;
 
 	n = read_dimension();
 	printf("Dimensio n=%d\n", n);
 
-	printf("Matriu random\n");
-	matrixA = generate_random_matrix(n);
-	print_matrix(matrixA, n);
+	printf("Arxiu? (buit per matriu random) ");
+	fgets(filename, 255, stdin);
 
+	if (filename[0] != '\n') {
+		if (filename[strlen(filename) - 1] == '\n') {
+			filename[strlen(filename) - 1] = '\0';
+		}
+
+		printf("\nMatriu de l'arxiu %s\n", filename);
+		matrixA = read_matrix(filename, n);
+	} else {
+		printf("\nMatriu random\n");
+		matrixA = generate_random_matrix(n);
+	}
+
+	printf("Començant calcul B = LU...\n");
+	time = clock();
 	matrixB = LU_product(matrixA, n);
-	printf("\n");
-	print_matrix(matrixB, n);
+	time = clock() - time;
+	printf("Calcul finalitzat.\n");
 
-	free(matrixA);
-	free(matrixB);
+	printf("S'escriura la matriu B a l'arxiu output.txt\n");
+
+	fp = fopen("output.txt", "w");
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			fprintf(fp, " %+.2le", matrixB[i][j]);
+		}
+		fprintf(fp, "\n");
+	}
+	fclose(fp);	
+
+	printf("n = %d, t = %.6f, t/n = %.6f\n",
+		n, ((float)time)/CLOCKS_PER_SEC, 
+		(((float)time) / CLOCKS_PER_SEC)/n
+	);
+
+	free_matrix(matrixA, n);
+	free_matrix(matrixB, n);
 	return 0;
 }

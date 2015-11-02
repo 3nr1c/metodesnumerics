@@ -13,8 +13,11 @@ all:
 	make p4e1
 	make p5e1
 
+p4e1: read_matrix.o
+
 clean:
 	rm -rf p1e1 p1e2 p1e3 p1e4
 	rm -rf p2e1 p2e2 p2e3
 	rm -rf p3e1 p3e2
 	rm -rf p4e1 p5e1
+	rm read_matrix.o
