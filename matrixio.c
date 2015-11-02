@@ -72,7 +72,6 @@ void write_vector(char* filename, double* vector, int n)
 	int i = 0;
 
     for (i = 0; i < n; i++) {
-            fprintf(fp, " %+.2le", vector[i]);
+            fprintf(fp, " %+.2le\n", vector[i]);
     }
-    fprintf(fp, "\n");
 }
