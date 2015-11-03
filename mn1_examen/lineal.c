@@ -177,7 +177,6 @@ int main()
 	print_matrix(matrix, n);
 
 	det = lupp(n, matrix, p);
-	solveLU(n, matrix, vectorX);
 
 	print_matrix(matrix, n);
 
@@ -188,7 +187,14 @@ int main()
 		printf("%d -> %d\n", i, p[i]);
 	}
 
+	solveLU(n, matrix, vectorX);
 	printf("\nSOLUCIO Ax=b:\n");
+	for (i = 0; i < n; i++) {
+		printf("%+.3e\n", vectorX[i]);
+	}
+
+	solveLU(n, matrix, vectorX);
+	printf("\nSOLUCIO AAy=b:\n");
 	for (i = 0; i < n; i++) {
 		printf("%+.3e\n", vectorX[i]);
 	}
@@ -201,4 +207,3 @@ int main()
 	free(matrix);
 	return 0;
 }
-
