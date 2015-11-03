@@ -4,7 +4,6 @@
 #include <time.h>
 #include <float.h>
 #include <assert.h>
-#include <time.h>
 #include <string.h>
 #include "matrixio.h"
 
@@ -129,9 +128,9 @@ int main()
 	time = clock() - time;
 	printf("Calcul finalitzat.\n");
 
-	printf("S'escriura la matriu B a l'arxiu output.txt\n");
+	printf("S'escriura la matriu B a l'arxiu output1.txt\n");
 
-	write_matrix("output.txt", matrixB, n);
+	write_matrix("output1.txt", matrixB, n);
 
 	printf("n = %d, t = %.6f, t/n = %.6f\n",
 		n, ((float)time)/CLOCKS_PER_SEC, 

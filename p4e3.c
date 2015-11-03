@@ -101,7 +101,8 @@ int main()
 	char filename[256];
 	double** matrixA;
 	clock_t time;
-	double* vectorB;
+	double* vectorX;
+	double* vectorY;
 	int i = 0;
 	int j = 0;
 
@@ -123,7 +124,7 @@ int main()
 		matrixA = generate_random_matrix(n);
 	}
 
-	printf("Arxiu vector b? (buit per vector random) ");
+	printf("Arxiu vector x? (buit per vector random) ");
 	fgets(filename, 255, stdin);
 
 	if (filename[0] != '\n') {
@@ -132,42 +133,42 @@ int main()
 		}
 
 		printf("\nVector de l'arxiu %s\n", filename);
-		vectorB = read_vector(filename, n);
+		vectorX = read_vector(filename, n);
 	} else {
 		printf("\n Vector random\n");
-		vectorB = generate_random_vector(n);
+		vectorX = generate_random_vector(n);
 	}
+	vectorY = malloc(sizeof(double) * n);
 
-	printf("Començant calcul LUx = b...\n");
+	printf("Començant calcul L(Ux) = y...\n");
 	time = clock();
 
 /*******/
-	for (i = 1; i < n; i++) {
-		for (j = 0; j < i; j++) {
-			vectorB[i] -= vectorB[j] * matrixA[i][j];
-		}
-	}
 	
-
-	for (i = n - 1; i >= 0; i--) {
-		if (matrixA[i][i] == 0) {
-			printf("U no es singular\n");
-			return 1;
+	for (i = 0; i < n; i++) {
+		vectorY[i] = 0;
+		for (j = i; j < n; j++) {
+			vectorY[i] += matrixA[i][j] * vectorX[j];
 		}
-
-		for (j = i + 1; j < n; j++) {
-			vectorB[i] -= vectorB[j] * matrixA[i][j];
-		}
-
-		vectorB[i] /= matrixA[i][i];
 	}
+
+
+	/* Utilitzem el vectorX per al resultat L*vectorY*/
+
+	for (i = 0; i < n; i++) {
+		vectorX[i] = vectorY[i];
+		for (j = 0; j < i; j++) {
+			vectorX[i] += matrixA[i][j] * vectorY[j];
+		}
+	}
+	print_vector(vectorX, n);
 /*******/
 	time = clock() - time;
 	printf("Calcul finalitzat.\n");
 
-	printf("S'escriura el vector X a l'arxiu output2.txt\n");
+	printf("S'escriura el vector y a l'arxiu output3.txt\n");
 
-	write_vector("output2.txt", vectorB, n);
+	write_vector("output3.txt", vectorX, n);
 
 	printf("n = %d, t = %.6f, t/n = %.6f\n",
 		n, ((float)time)/CLOCKS_PER_SEC, 
@@ -175,6 +176,7 @@ int main()
 	);
 
 	free_matrix(matrixA, n);
-	free(vectorB);
+	free(vectorX);
+	free(vectorY);
 	return 0;
 }
