@@ -1,28 +1,37 @@
-#include <stdio.h>
-#include <math.h>
-#include <stdlib.h>
-#include <float.h>
-#include <assert.h>
-#include <time.h>
 #include <string.h>
-#include "matrixio.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include "p5e1.h"
 #include "solveLU.h"
+#include "matrixio.h"
 
-/**
- * INT FORMAT --> %5d
- * FLOAT / DOUBLE FORMAT --> %+.8le
- */
+void permute(int n, double* vector, int* p)
+{
+	double* temp_vector = (double*)malloc(sizeof(int) * n);
+	int i = 0;
+
+	for (i = 0; i < n; i++) temp_vector[i] = vector[i];
+
+	for (i = 0; i < n; i++) {
+		vector[i] = temp_vector[p[i]];
+	}
+	free(temp_vector);
+}
 
 int main()
 {
 	int n = 0;
 	char filename[256];
 	double** matrixA;
-	clock_t time;
 	double* vectorB;
-	
+	int* p;
+	int i = 0;
+
 	n = read_dimension();
 	printf("Dimensio n=%d\n", n);
+
+	p = (int*)malloc(sizeof(int) * n);
+	for (i = 0; i < n; i++) p[i] = i;
 
 	printf("Arxiu matriu A? (buit per matriu random) ");
 	fgets(filename, 255, stdin);
@@ -39,7 +48,7 @@ int main()
 		matrixA = generate_random_matrix(n);
 	}
 
-	printf("Arxiu vector b? (buit per vector random) ");
+	printf("Arxiu vector B? (buit per vector random) ");
 	fgets(filename, 255, stdin);
 
 	if (filename[0] != '\n') {
@@ -54,25 +63,19 @@ int main()
 		vectorB = generate_random_vector(n);
 	}
 
-	printf("Començant calcul LUx = b...\n");
-	time = clock();
+	if (lupp(n, matrixA, p)) {
+		solveLU(n, matrixA, vectorB);
 
-/*******/
-	solveLU(n, matrixA, vectorB);
-/*******/
-	time = clock() - time;
-	printf("Calcul finalitzat.\n");
+		permute(n, vectorB, p);
 
-	printf("S'escriura el vector X a l'arxiu output2.txt\n");
-
-	write_vector("output2.txt", vectorB, n);
-
-	printf("n = %d, t = %.6f, t/n = %.6f\n",
-		n, ((float)time)/CLOCKS_PER_SEC, 
-		(((float)time) / CLOCKS_PER_SEC)/n
-	);
+		print_vector(vectorB, n);
+	} else {
+		printf("La matriu A es singular.\n");
+		return 1;
+	}
 
 	free_matrix(matrixA, n);
 	free(vectorB);
+	free(p);
 	return 0;
 }

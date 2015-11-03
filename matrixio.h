@@ -1,3 +1,6 @@
+#ifndef __matrixio_h__
+#define __matrixio_h__
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -17,3 +20,5 @@ void print_matrix(double** matrix, int n);
 void print_vector(double* vector, int n);
 
 void free_matrix(double** matrix, int n);
+
+#endif
