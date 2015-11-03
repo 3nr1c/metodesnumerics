@@ -52,10 +52,14 @@ double lupp(int n, double **A, int *p) {
 	for (k = 0; k < n - 1; k++) {
 		i = k;
 		while (i < n && fabs(A[i][k]) < DBL_EPSILON * norma) i++;
-		if (i != k) swap_rows(A, i, k, n);
-		temp = p[i];
-		p[i] = p[k];
-		p[k] = temp;
+		if (i != k) {
+			swap_rows(A, i, k, n);
+			temp = p[i];
+			p[i] = p[k];
+			p[k] = temp;
+
+			detA *= -1;
+		}
 
 		detA *= A[k][k];
 		if (detA == 0) {
