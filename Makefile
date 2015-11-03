@@ -13,17 +13,18 @@ all:
 	make p4e1
 	make p4e2
 	make p4e3
-	make p5e1
+	make p5e2
 
 p4e1: matrixio.o
 p4e2: matrixio.o
 p4e3: matrixio.o
-p5e1: matrixio.o
+p5e2: p5e1.o matrixio.o
 
 clean:
 	rm -rf p1e1 p1e2 p1e3 p1e4
 	rm -rf p2e1 p2e2 p2e3
 	rm -rf p3e1 p3e2
-	rm -rf p4e1 p4e2 p4e3 p5e1
+	rm -rf p4e1 p4e2 p4e3 
+	rm -rf p5e1 p5e2
 	rm *.o
 	rm -rf *.dSYM
