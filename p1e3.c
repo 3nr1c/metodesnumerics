@@ -8,7 +8,7 @@
 int main()
 {
 	int n = 0;
-//	int i = 0;
+	int i = 0;
 	int ind = 0;
 	float x = 0;
 	double h = 0;
@@ -22,7 +22,6 @@ int main()
 
 	h = (B - A) / n;
 
-	int i;
 	for (i = 0; i <= n; i++) {
 		z = A + i * h;
 		x = z;

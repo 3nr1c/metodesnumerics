@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <time.h>
 
 double** read_matrix(char* filename, int n)
 {
@@ -37,7 +38,7 @@ void write_matrix(char* filename, double** matrix, int n)
 
         for (i = 0; i < n; i++) {
                 for (j = 0; j < n; j++) {
-                        fprintf(fp, " %+.2le", matrix[i][j]);
+                        fprintf(fp, " %+.3lf", matrix[i][j]);
                 }
                 fprintf(fp, "\n");
         }
@@ -72,6 +73,90 @@ void write_vector(char* filename, double* vector, int n)
 	int i = 0;
 
     for (i = 0; i < n; i++) {
-            fprintf(fp, " %+.2le\n", vector[i]);
+            fprintf(fp, "%+.3lf\n", vector[i]);
     }
 }
+
+int read_dimension()
+{
+	int n = 0;
+	printf("Entra la dimensio (n > 0): ");
+	
+	assert(fscanf(stdin, "%d", &n) == 1);
+
+	/* clean buffer */
+	while((getchar()!='\n'));
+	if (n <= 0) {
+		printf("ERROR: la dimensio ha de ser positiva\n");
+		exit(1);
+	}
+
+	return n;
+}
+
+double** generate_random_matrix(int n)
+{
+	double** matrix = malloc(sizeof(double*) * n);
+	int i = 0;
+	int j = 0;
+	
+	srandom(time(NULL));
+
+	for (i = 0; i < n; i++) {
+		matrix[i] = malloc(sizeof(double) * n);
+		for (j = 0; j < n; j++) {
+			matrix[i][j] = (double)random() / RAND_MAX;
+			random() > RAND_MAX / 2 ? matrix[i][j] *= -1 : 0 ;
+		}
+	}
+	
+	return matrix;
+}
+
+double* generate_random_vector(int n)
+{
+	double* vector = malloc(sizeof(double) * n);
+	int i = 0;
+
+	srandom(time(NULL));
+
+	for (i = 0; i < n; i++) {
+		vector[i] = (double)random() / RAND_MAX;
+		random() > RAND_MAX / 2 ? vector[i] *= -1 : 0;
+	}
+
+	return vector;
+}
+
+void print_matrix(double** matrix, int n)
+{
+	int i = 0;
+	int j = 0;
+
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < n; j++) {
+			printf("%+.3lf ", matrix[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+void print_vector(double* vector, int n)
+{
+	int i = 0;
+
+	for (i = 0; i < n; i++) {
+		printf("%+.3lf\n", vector[i]);
+	}
+}
+
+void free_matrix(double** matrix, int n)
+{
+	int i = 0;
+
+	for (i = 0; i < n; i++) {
+		free(matrix[i]);
+	}
+	free(matrix);
+}
+
