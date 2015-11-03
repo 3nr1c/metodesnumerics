@@ -5,12 +5,13 @@
 
 double** read_matrix(char* filename, int n)
 {
-	double** matrix = malloc(sizeof(double*) * n);
+	double** matrix = (double**)malloc(sizeof(double*) * n);
 	FILE* fp;
 	int i = 0;
 	int j = 0;
 
 	fp = fopen(filename, "r");
+
 	assert(matrix != NULL);
 	if (!fp) {
 		printf("És possible que l'arxiu no existeixi\n");
@@ -19,7 +20,7 @@ double** read_matrix(char* filename, int n)
 	}
 
 	for (i = 0; i < n; i++) {
-		matrix[i] = malloc(sizeof(double) * n);
+		matrix[i] = (double*)malloc(sizeof(double) * n);
 		assert(matrix[i] != NULL);
 		for (j = 0; j < n; j++) {
 			assert(1 == fscanf(fp, "%lf", &matrix[i][j]));
@@ -47,7 +48,7 @@ void write_matrix(char* filename, double** matrix, int n)
 
 double* read_vector(char* filename, int n)
 {
-	double* vector = malloc(sizeof(double) * n);
+	double* vector = (double*)malloc(sizeof(double) * n);
 	FILE* fp;
 	int i = 0;
 
@@ -96,14 +97,14 @@ int read_dimension()
 
 double** generate_random_matrix(int n)
 {
-	double** matrix = malloc(sizeof(double*) * n);
+	double** matrix = (double**)malloc(sizeof(double*) * n);
 	int i = 0;
 	int j = 0;
 	
 	srandom(time(NULL));
-
+ 
 	for (i = 0; i < n; i++) {
-		matrix[i] = malloc(sizeof(double) * n);
+		matrix[i] = (double*)malloc(sizeof(double) * n);
 		for (j = 0; j < n; j++) {
 			matrix[i][j] = (double)random() / RAND_MAX;
 			random() > RAND_MAX / 2 ? matrix[i][j] *= -1 : 0 ;
@@ -115,7 +116,7 @@ double** generate_random_matrix(int n)
 
 double* generate_random_vector(int n)
 {
-	double* vector = malloc(sizeof(double) * n);
+	double* vector = (double*)malloc(sizeof(double) * n);
 	int i = 0;
 
 	srandom(time(NULL));
