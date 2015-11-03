@@ -14,19 +14,20 @@
 
 double** LU_product(double** matrix, int n)
 {
-	double** B = malloc(sizeof(double*) * n);
+	double** B = (double**)malloc(sizeof(double*) * n);
 	int i = 0;
 	int j = 0;
 	int k = 0;
 	double temp;
 
 	for (i = 0; i < n; i++) {
-		B[i] = malloc(sizeof(double) * n);
+		B[i] = (double*)malloc(sizeof(double) * n);
+		
 		for (j = 0; j < n; j++) {
 			temp = 0;
 			for (k = 0; k <= (i < j ? i : j); k++) {
 				if (i == k) {
-					temp += matrix[k][j];
+					temp +=      1       * matrix[k][j];
 				} else {
 					temp += matrix[i][k] * matrix[k][j];
 				}

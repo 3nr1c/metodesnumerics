@@ -37,13 +37,13 @@ void write_matrix(char* filename, double** matrix, int n)
 	int i = 0;
 	int j = 0;
 
-        for (i = 0; i < n; i++) {
-                for (j = 0; j < n; j++) {
-                        fprintf(fp, " %+.3lf", matrix[i][j]);
-                }
-                fprintf(fp, "\n");
-        }
-        fclose(fp);    
+    for (i = 0; i < n; i++) {
+            for (j = 0; j < n; j++) {
+                    fprintf(fp, " %+.3lf", matrix[i][j]);
+            }
+            fprintf(fp, "\n");
+    }
+    fclose(fp);    
 }
 
 double* read_vector(char* filename, int n)

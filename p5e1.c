@@ -72,5 +72,12 @@ double lupp(int n, double **A, int *p) {
 			A[i][k] = mult;
 		}
 	}
+
+	detA *= A[n - 1][n - 1];
+	if (detA == 0) {
+		printf("La matriu A és singular.\n");
+		exit(1);
+	}
+
 	return detA;
 }

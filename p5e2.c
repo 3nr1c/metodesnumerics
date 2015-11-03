@@ -7,8 +7,8 @@
 
 int main()
 {
-	int* p;
 	int n = read_dimension();
+	int* p;
 	int i;
 	double** matrixA;
 	double detA = 0;
@@ -18,7 +18,7 @@ int main()
 
 	printf("Dimensio n=%d\n", n);
 
-	p = malloc(sizeof(int) * n);
+	p = (int*)malloc(sizeof(int) * n);
 	for (i = 0; i < n; i++) p[i] = i;
 
 	printf("Arxiu? (buit per matriu random) ");
