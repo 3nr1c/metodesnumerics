@@ -17,6 +17,7 @@ all:
 	make p5e3
 	make p7e1
 	make p7e2
+	make p8e1
 
 p4e1: matrixio.o
 p4e2: solveLU.o matrixio.o
@@ -25,6 +26,7 @@ p5e2: p5e1.o matrixio.o
 p5e3: solveLU.o p5e1.o matrixio.o
 p7e1: solveLU.o matrixio.o
 p7e2: solveLU.o matrixio.o horner.o
+p8e1: matrixio.o horner.o
 
 clean:
 	rm -rf p1e1 p1e2 p1e3 p1e4
@@ -33,5 +35,6 @@ clean:
 	rm -rf p4e1 p4e2 p4e3 
 	rm -rf p5e1 p5e2 p5e3
 	rm -rf p7e1 p7e2
+	rm -rf p8e1
 	rm *.o
 	rm -rf *.dSYM
