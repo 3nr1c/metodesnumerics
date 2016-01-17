@@ -11,3 +11,11 @@ Per a compilar tots els arxius de cop:
 ```bash
 make all
 ```
+
+# Índex d'exercicis
+
+* 4.1 Producte LU
+* 4.2 Resolucio sistema LUx=b
+* 4.3 Càlcul de L(Ux)
+* 5.1 Factorització PA=LU
+* 5.3 Resolució d'un sistema utilitzant la factorització LU i la resolució del sistema LUx=b

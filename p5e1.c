@@ -2,30 +2,11 @@
 #include <float.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "matrixio.h"
 
 /*
  * epsilon -> DBL_EPSILON
  */
-
-double norma_inf(double **A, int n) {
-	int i = 0;
-	int j = 0;
-
-	double max = 0;
-	double premax = 0;
-
-	for (i = 0; i < n; i++) {
-
-		premax = 0;
-		for (j = 0; j < n; j++) {
-			premax += fabs(A[i][j]);
-		}
-
-		if (premax > max) max = premax;
-	}	
-
-	return max;
-}
 
 void swap_rows(double** A, int i, int j, int n)
 {
