@@ -6,6 +6,7 @@
 
 #include "solveLU.h" /* solveLU */
 #include "matrixio.h" /* norma_inf, free_matrix, print_vector */
+#include "horner.h"
 
 /**
  * TODO: nombre de condició
@@ -82,25 +83,32 @@ int main()
 	int m = n + 1;
 	int i = 0;
 	int j = 0;
+	int k = 0;
 
+	double* x = malloc(sizeof(double) * m);
 	double* f = malloc(sizeof(double) * m);
-	double** A = malloc(sizeof(double*) * m);
+	double** L = malloc(sizeof(double*) * m);
 
-	double temp = 0;
-	double x_i = 0;
-
+	double z = 0;
 
 	for (i = 0; i < m; i++) {
-		A[i] = malloc(sizeof(double) * m);
-
 		printf("x%d = ", i);
-		x_i = read_number();
-		temp = 1;
-		for (j = 0; j < m; j++) {
-			A[i][j] = temp;
-			temp *= x_i;
+		x[i] = read_number();
+	}
+
+	for (i = 0; i < m; i++) {
+		L[i] = malloc(sizeof(double) * i + 1);
+
+		L[i][0] = 1;
+
+		for (j = 1; j <= i; j++) {
+			L[i][j] = 1;
+			for (k = 0; k < j; k++) {
+				L[i][j] *= x[i] - x[k];
+			}
 		}
 	}
+
 	printf("\n");
 
 	for (i = 0; i < m; i++) {
@@ -108,13 +116,22 @@ int main()
 		f[i] = read_number();
 	}
 
-	lupp(m, A);
-	solveLU(m, A, f);
+	for (i = 1; i < m; i++) {
+		for (j = 0; j < i; j++) {
+			f[i] -= f[j] * L[i][j];
+		}
+		f[i] /= L[i][i];
+	}
 
+	printf("\n");
 	print_vector(f, m);
 
+	printf("\nAvaluació z = ");
+	z = read_number();
+	printf("f(%lf) = %lf\n", z, horner(m, f, x, z));
+
 	free(f);
-	free_matrix(A, m);
+	free_matrix(L, m);
 
 	return 0;
 }
