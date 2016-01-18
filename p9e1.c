@@ -75,6 +75,17 @@ double* funcio_polinomica(int n, double* x)
 
 	return f;
 }
+double* funcio_trigonometrica(int n, double* x)
+{
+	int i = 0;
+	double* f = malloc(sizeof(double) * n);
+
+	for (i = 0; i < n; i++) {
+		f[i] = cos(x[i]);
+	}
+
+	return f;
+}
 
 void difdiv(int n, double *x, double *f)
 {
@@ -112,7 +123,8 @@ int main()
 	}
 
 	x = nodes_equiespaiats(n, a, b);
-	f = funcio_polinomica(n, x);
+	f = funcio_trigonometrica(n, x);
+	/*f = funcio_polinomica(n, x);*/
 
 	difdiv(n, x, f);
 
@@ -123,7 +135,8 @@ int main()
 	}
 
 	x = nodes_txebitxev(n, a, b);
-	f = funcio_polinomica(n, x);
+	f = funcio_trigonometrica(n, x);
+	/*f = funcio_polinomica(n, x);*/
 
 	difdiv(n, x, f);
 
