@@ -11,3 +11,16 @@ double horner(int n, double *b, double *x, double z)
 
 	return u_i;
 }
+
+void hornerd(int n, double z, double *x, double *f, double p[2])
+{
+	int i = 0;
+
+	p[0] = f[n - 1];
+	p[1] = 0;
+
+	for (i = n - 2; i >= 0; i--) {
+		p[1] = p[0] + (z - x[i]) * p[1];
+		p[0] = f[i] + (z - x[i]) * p[0];
+	}
+}
