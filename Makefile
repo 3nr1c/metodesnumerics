@@ -19,6 +19,7 @@ all:
 	make p7e2
 	make p8e1
 	make p9e1
+	make p10e1
 
 p4e1: matrixio.o
 p4e2: solveLU.o matrixio.o
@@ -39,5 +40,6 @@ clean:
 	rm -rf p7e1 p7e2
 	rm -rf p8e1
 	rm -rf p9e1
+	rm -rf p10e1 f
 	rm *.o
 	rm -rf *.dSYM

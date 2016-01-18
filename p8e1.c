@@ -81,5 +81,8 @@ int main()
 		printf("%8lf %8lf\n", x[0] + i * delta, p_z);
 	}
 
+	free(x);
+	free(f);
+
 	return 0;
 }

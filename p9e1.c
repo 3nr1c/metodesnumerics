@@ -146,5 +146,8 @@ int main()
 		printf("%.5e %.5e %.5e\n", x[i], p[0], p[1]);
 	}
 
+	free(x);
+	free(f);
+
 	return 0;
 }
